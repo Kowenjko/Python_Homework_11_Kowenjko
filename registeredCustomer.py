@@ -1,15 +1,8 @@
 import psycopg2
 from settings import *
 
-connection = psycopg2.connect(user=USER,
-                              password=PASSWORD,
-                              host=HOST,
-                              port=PORT,
-                              database='shop_db')
-cursor = connection.cursor()
-cursor.execute('')
 
-class Employee:
+class registeredCustomer:
 
     def __init__(self, first_name, last_name, city, email, password):
         self.first_name = first_name
@@ -17,6 +10,19 @@ class Employee:
         self.city = city
         self.login = email
         self.password = password
+
+    @classmethod
+    def _openDB(cls):
+        connection = psycopg2.connect(user=USER, password=PASSWORD,
+                                      host=HOST, port=PORT,
+                                      database='shop_db')
+        cursor = connection.cursor()
+        return connection, cursor
+
+    @classmethod
+    def _closeDB(cls, connection, cursor):
+        cursor.close()
+        connection.close()
 
     def edit_self_info(self):
         pass

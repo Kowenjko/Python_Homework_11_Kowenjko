@@ -1,19 +1,25 @@
 import psycopg2
 from settings import *
 
-connection = psycopg2.connect(user=USER,
-                              password=PASSWORD,
-                              host=HOST,
-                              port=PORT,
-                              database='shop_db')
-cursor = connection.cursor()
-cursor.execute('')
 
-class Admin:
+class Admin():
 
     def __init__(self, login, password):
         self.login = login
         self.password = password
+
+    @classmethod
+    def _openDB(cls):
+        connection = psycopg2.connect(user=USER, password=PASSWORD,
+                                      host=HOST, port=PORT,
+                                      database='shop_db')
+        cursor = connection.cursor()
+        return connection, cursor
+
+    @classmethod
+    def _closeDB(cls, connection, cursor):
+        cursor.close()
+        connection.close()
 
     def add_product(self):
         pass
